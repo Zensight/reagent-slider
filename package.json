@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "rc-slider": "latest",
+    "rc-tooltip": "latest"
+  },
+  "scripts": {
+    "bundle": "bin/webpack && NODE_ENV=production bin/webpack -p"
+  },
+  "devDependencies": {
+    "babel-core": "^5.8.25",
+    "webpack": "^1.12.2"
+  }
+}
