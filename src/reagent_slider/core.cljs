@@ -2,18 +2,14 @@
     (:require [reagent.core :as reagent]
               [co.zensight.react-slider]))
 
-(defn- slider [clazz v opts]
-  [(reagent/adapt-react-class clazz)
-   (assoc opts :on-change #(reset! v %))])
+(def range-component (reagent/adapt-react-class (.. js/ReactSlider -Range)))
 
-(defn range-component [values opts]
-  (slider (.. js/ReactSlider -Range) values opts))
+(def tooltipped-range-component
+  (reagent/adapt-react-class
+    (.createSliderWithTooltip js/ReactSlider (.. js/ReactSlider -Range))))
 
-(defn tooltipped-range-component [values opts]
-  (slider (.createSliderWithTooltip js/ReactSlider (.. js/ReactSlider -Range)) values opts))
+(def slider-component (reagent/adapt-react-class js/ReactSlider))
 
-(defn slider-component [v opts]
-  (slider js/ReactSlider v opts))
-
-(defn tooltipped-slider-component [v opts]
-  (slider (.createSliderWithTooltip js/ReactSlider (.. js/ReactSlider -Range)) v opts))
+(def tooltipped-slider-component
+  (reagent/adapt-react-class
+    (.createSliderWithTooltip js/ReactSlider js/ReactSlider)))

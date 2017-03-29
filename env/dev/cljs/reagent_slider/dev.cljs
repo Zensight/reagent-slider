@@ -16,22 +16,24 @@
                      5 "6 mos"
                      6 "1 year"}
 
-        defaults [2 3]
-        model (reagent/atom defaults)
-        output (reaction (let [[v1 v2] @model]
-                           {:min (index->time (min v1 v2))
-                            :max (index->time (max v1 v2))}))]
+        model (reagent/atom {:min 2 :max 3})]
 
     (reagent/render [:div {:style {:width 290}}
                      [core/tooltipped-range-component
-                      model
                       {:min 0
                        :max (dec (count index->time))
+                       ;; this doesn't work, not sure why. You'd think it wouldn't rerender
+                       ;; until after you let go and the value is set, but that's not so. Instead
+                       ;; it locks the handles in place, as if it rerendered right away...
+                       ;;:value [(:min @model) (:max @model)]
+                       :defaultValue [2 3]
                        :marks index->time
-                       :tipFormatter #(index->time %) ;;has to be a function
-                       :defaultValue defaults}]](.getElementById js/document "app"))
+                       :onAfterChange (fn [[v1 v2]]
+                                        (reset! model {:min (min v1 v2)
+                                                       :max (max v1 v2)}))
+                       :tipFormatter #(index->time %)}]](.getElementById js/document "app"))
 
-    (add-watch model :watcher (fn [_ _ _ _] (println @output)))))
+    (add-watch model :watcher (fn [_ _ _ _] (println @model)))))
 
 (figwheel/watch-and-reload
   :websocket-url "ws://localhost:3450/figwheel-ws"
