@@ -1,4 +1,4 @@
-(defproject reagent-slider "0.1.0"
+(defproject reagent-slider "0.1.1"
   :description "Reagent wrapper around react-components/slider"
   :url "http://github.com/Zensight/reagent-slider.git"
   :license {:name "MIT"}
