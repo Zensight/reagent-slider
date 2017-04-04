@@ -19,14 +19,13 @@
         model (reagent/atom {:min 2 :max 3})]
 
     (reagent/render [:div {:style {:width 290}}
+
+                     [:button {:on-click #(reset! model {:min 1 :max 5})} "switch!"]
+
                      [core/tooltipped-range-component
                       {:min 0
                        :max (dec (count index->time))
-                       ;; this doesn't work, not sure why. You'd think it wouldn't rerender
-                       ;; until after you let go and the value is set, but that's not so. Instead
-                       ;; it locks the handles in place, as if it rerendered right away...
-                       ;;:value [(:min @model) (:max @model)]
-                       :defaultValue [2 3]
+                       :defaultValue [(:min @model) (:max @model)]
                        :marks index->time
                        :onAfterChange (fn [[v1 v2]]
                                         (reset! model {:min (min v1 v2)
